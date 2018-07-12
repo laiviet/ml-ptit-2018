@@ -8,6 +8,16 @@ Translation
 
 https://nlp.stanford.edu/projects/nmt/
 
+Sentiment analysis 
+
+https://nlp.stanford.edu/sentiment/
+
+https://www.cs.cornell.edu/people/pabo/movie-review-data/
+
+Question classification 
+
+http://cogcomp.org/Data/QA/QC/
+
 
 # Corpus for Image Processing
 
