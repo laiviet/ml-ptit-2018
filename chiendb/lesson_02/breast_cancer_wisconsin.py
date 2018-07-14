@@ -45,19 +45,23 @@ if __name__ == '__main__':
 		Z1 = np.dot(X_train, W1)
 		L1 = sigmoid(Z1)
 		y_hat = sigmoid(np.dot(sigmoid(np.dot(X_train, W1)), W2))
+		if (t+1) % 1000 == 0:
+			loss = np.sum((y_hat-y_train)*(y_hat-y_train))/(2*num_samples)
+			print('Step = {}, loss = {}'.format(t+1, loss))
 		error = y_hat - y_train
 		error_Z2 = error*sigmoid_derivative(y_hat)
 		error_W1 = np.dot(X_train.T, np.dot(error_Z2, W2.T)*sigmoid_derivative(L1))
 		error_W2 = np.dot(L1.T, error_Z2)
 		W1 -= learning_rate*error_W1
 		W2 -= learning_rate*error_W2
-		if (t+1) % 1000 == 0:
-			y_pred = sigmoid(np.dot(sigmoid(np.dot(X_test, W1)), W2)).reshape((1, len(y_test)))[0]
-			y_pred[y_pred > threshold] = 1
-			y_pred[y_pred <= threshold] = 0
-			acc = accuracy_score(y_test, y_pred)
-			loss = np.sum((y_pred-y_test)*(y_pred-y_test))/(2*len(y_test))
-			print('Step = {}, loss = {}, Acc = {}'.format(t+1, loss, acc))
+
+
+	y_pred = sigmoid(np.dot(sigmoid(np.dot(X_test, W1)), W2)).reshape((1, len(y_test)))[0]
+	y_pred[y_pred > threshold] = 1
+	y_pred[y_pred <= threshold] = 0
+	acc = accuracy_score(y_test, y_pred)
+	loss = np.sum((y_pred-y_test)*(y_pred-y_test))/(2*len(y_test))
+	print('Step = {}, loss = {}, Acc = {}'.format(t+1, loss, acc))
 
 
 		
