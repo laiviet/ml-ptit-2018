@@ -9,7 +9,7 @@ class LoadData:
         self.y_train = self.unpickle(dir + 'data_batch_1')['labels']
         self.y_test = self.unpickle(dir + 'test_batch')['labels']
         self.index = 0
-        self.batch_size = 200
+        self.batch_size = 128
         for i in range(2, 6):
             self.X_train += self.unpickle(dir + 'data_batch_' + str(i))['data']
             self.y_train += self.unpickle(dir + 'data_batch_' + str(i))['labels']

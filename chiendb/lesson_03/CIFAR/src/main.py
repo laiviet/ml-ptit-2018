@@ -26,10 +26,10 @@ class Classifier(nn.Module):
 
 
 epoch = 20000
-h = 1000
+h = 100
 n_features = 3072
 n_classes = 10
-lr = 0.001
+lr = 0.0001
 load = LoadData()
 model = Classifier(h=h, n_features=n_features, n_classes=n_classes)
 optimizer = torch.optim.SGD(model.parameters(), lr=lr, momentum=0.9)
@@ -41,13 +41,6 @@ for e in range(epoch):
     features = Variable(torch.from_numpy(X_batch).type(torch.FloatTensor))
     target = Variable(torch.from_numpy(y_batch).type(torch.LongTensor))
     y_hat = model(features)
-    """
-    print(y_hat)
-    _, y_pred = torch.max(y_hat, 0)
-    y_pred = y_pred.data.numpy()
-    print(target)
-    print(y_pred)
-    """
     loss = criterion(y_hat, target)
     optimizer.zero_grad()
     loss.backward()
