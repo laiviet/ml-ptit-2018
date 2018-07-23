@@ -53,9 +53,9 @@ class AlexNet(nn.Module):
         return x
 
 
-transform = transforms.Compose(
-    [transforms.ToTensor(),
-     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+transform = transforms.Compose([transforms.ToTensor(),
+                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))
+                                ])
 
 cifar_trainset = datasets.CIFAR10(root='/home/chiendb/Data', train=True, download=True, transform=transform)
 cifar_testset = datasets.CIFAR10(root='/home/chiendb/Data', train=False, download=True, transform=transform)
@@ -64,7 +64,7 @@ test_data = DataLoader(cifar_testset, batch_size=64, shuffle=True, num_workers=2
 
 model = AlexNet()
 lr = 0.005
-num_epoch = 80
+num_epoch = 70
 if torch.cuda.is_available():
     model = model.cuda()
 
@@ -87,10 +87,11 @@ for e in range(num_epoch):
         optimizer.step()
         l += loss.item()
     log = open('log.txt', 'a')
-    print('epoch: {}, loss: {}'.format(e, l), log)
+    print >>log, 'epoch: {}, loss: {}'.format(e, l)
     log.close()
 
 torch.save(model, 'alexnet.pt')
+print 'Done!'
 
 # testing
 y = []
