@@ -1,0 +1,39 @@
+Epoch  0: loss:     721.73 > loss: 14.74 acc: 0.4793 
+Epoch  1: loss:     512.80 > loss: 12.21 acc: 0.5522 
+Epoch  2: loss:     426.52 > loss: 10.92 acc: 0.6114 
+Epoch  3: loss:     349.22 > loss: 11.07 acc: 0.6239 
+Epoch  4: loss:     272.25 > loss: 10.49 acc: 0.6519 
+Epoch  5: loss:     201.90 > loss: 12.18 acc: 0.6504 
+Epoch  6: loss:     141.90 > loss: 14.09 acc: 0.6508 
+Epoch  7: loss:      99.72 > loss: 16.02 acc: 0.6452 
+Epoch  8: loss:      84.36 > loss: 17.51 acc: 0.6487 
+Epoch  9: loss:      72.82 > loss: 18.16 acc: 0.6377 
+Epoch 10: loss:      63.25 > loss: 20.36 acc: 0.6411 
+Epoch 11: loss:      52.34 > loss: 19.93 acc: 0.6460 
+Epoch  0: loss:  937372.23 > loss: 23.03 acc: 0.1000 
+Epoch  1: loss:     900.53 > loss: 23.03 acc: 0.1000 
+Epoch  2: loss:     900.58 > loss: 23.03 acc: 0.1000 
+Epoch  0: loss:     573.57 > loss: 11.26 acc: 0.5996 
+Epoch  1: loss:     376.98 > loss:  9.06 acc: 0.6875 
+Epoch  2: loss:     267.61 > loss:  7.89 acc: 0.7312 
+Epoch  3: loss:     179.32 > loss:  7.45 acc: 0.7559 
+Epoch  4: loss:     100.06 > loss:  8.89 acc: 0.7494 
+Epoch  5: loss:      52.92 > loss: 11.06 acc: 0.7433 
+Epoch  6: loss:      39.46 > loss: 12.53 acc: 0.7491 
+Epoch  7: loss:      28.15 > loss: 13.27 acc: 0.7458 
+Epoch  8: loss:      25.31 > loss: 13.47 acc: 0.7456 
+Epoch  9: loss:      20.78 > loss: 14.35 acc: 0.7424 
+Epoch 10: loss:      20.93 > loss: 14.51 acc: 0.7462 
+Epoch  0: loss:     571.54 > loss: 11.62 acc: 0.5801 
+Epoch  1: loss:     387.79 > loss:  8.88 acc: 0.6881 
+Epoch  2: loss:     290.72 > loss:  8.06 acc: 0.7204 
+Epoch  3: loss:     211.03 > loss:  7.67 acc: 0.7374 
+Epoch  4: loss:     134.00 > loss:  8.05 acc: 0.7455 
+Epoch  5: loss:      63.12 > loss:  9.60 acc: 0.7515 
+Epoch  0: loss:    1771.08 > Test loss: 42.08 acc: 0.6194 > Valid loss: 42.35 acc: 0.6224 
+Epoch  1: loss:    1079.08 > Test loss: 32.76 acc: 0.7157 > Valid loss: 32.55 acc: 0.7170 
+Epoch  2: loss:     693.26 > Test loss: 30.49 acc: 0.7479 > Valid loss: 30.10 acc: 0.7495 
+Epoch  3: loss:     365.26 > Test loss: 31.46 acc: 0.7686 > Valid loss: 30.75 acc: 0.7708 
+Epoch  4: loss:     155.99 > Test loss: 41.21 acc: 0.7585 > Valid loss: 39.85 acc: 0.7611 
+Epoch  5: loss:     104.20 > Test loss: 47.70 acc: 0.7518 > Valid loss: 47.25 acc: 0.7526 
+Epoch  6: loss:      79.54 > Test loss: 50.03 acc: 0.7558 > Valid loss: 48.48 acc: 0.7612 
