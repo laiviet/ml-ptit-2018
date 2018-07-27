@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="WebServers">
+    <option name="servers">
+      <webServer id="3e156222-943e-4576-a8c5-41cb6a98ed8e" name="HAR_PUBLIC" url="http://203.162.88.102">
+        <fileTransfer host="203.162.88.102" port="22" rootFolder="/home/vietld" accessType="SFTP">
+          <advancedOptions>
+            <advancedOptions dataProtectionLevel="Private" />
+          </advancedOptions>
+          <option name="port" value="22" />
+        </fileTransfer>
+      </webServer>
+    </option>
+  </component>
+</project>

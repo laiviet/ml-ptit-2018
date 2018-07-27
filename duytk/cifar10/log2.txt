@@ -1,0 +1,23 @@
+
+
+Epoch  0: loss:     588.85 > loss: 12.36 acc: 0.5617 
+Epoch  1: loss:     430.59 > loss: 10.36 acc: 0.6292 
+Epoch  2: loss:     348.53 > loss:  9.09 acc: 0.6803 
+Epoch  3: loss:     280.01 > loss:  8.78 acc: 0.6993 
+Epoch  4: loss:     217.58 > loss:  8.31 acc: 0.7175 
+Epoch  5: loss:     148.66 > loss:  8.90 acc: 0.7214 
+Epoch  6: loss:      87.27 > loss:  9.54 acc: 0.7220 
+Epoch  7: loss:      46.97 > loss: 11.82 acc: 0.7112 
+Epoch  8: loss:      29.71 > loss: 12.73 acc: 0.7248 
+Epoch  9: loss:      22.25 > loss: 13.87 acc: 0.7249 
+Epoch 10: loss:      19.79 > loss: 14.03 acc: 0.7158 
+Epoch 11: loss:      17.55 > loss: 14.22 acc: 0.7249 
+Epoch 12: loss:      16.78 > loss: 15.11 acc: 0.7174 
+Epoch 13: loss:      16.17 > loss: 16.11 acc: 0.7177 
+Epoch 14: loss:      12.50 > loss: 17.38 acc: 0.7109 
+Epoch 15: loss:      13.75 > loss: 16.62 acc: 0.7149 
+Epoch 16: loss:      13.32 > loss: 16.56 acc: 0.7228 
+Epoch 17: loss:       8.44 > loss: 17.23 acc: 0.7211 
+Epoch 18: loss:      12.41 > loss: 18.86 acc: 0.7099 
+Epoch 19: loss:      11.62 > loss: 17.63 acc: 0.7221 
+Epoch 20: loss:      10.45 > loss: 17.52 acc: 0.7153 
