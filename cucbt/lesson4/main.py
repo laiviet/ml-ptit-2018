@@ -71,8 +71,8 @@ def main(args):
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--batch', type=int, default=128)
-    parser.add_argument('--lr', type=float, default=0.0001)
+    parser.add_argument('--batch', type=int, default=64)
+    parser.add_argument('--lr', type=float, default=0.005)
     parser.add_argument('--epoch', type=int, default=50)
     args = parser.parse_args()
     main(args)
