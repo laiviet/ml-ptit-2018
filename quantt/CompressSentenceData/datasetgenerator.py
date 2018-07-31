@@ -1,7 +1,10 @@
 from json import JSONDecoder, JSONDecodeError
 import re
 
-file=open('D:\\compression-data.json','r').read()
+# data link files train, valid, test
+# https://drive.google.com/open?id=1EyQiaYDvvuVxTA9NhpCl8x78aOhJhAGy
+
+file=open('compression-data.json','r').read()
 
 def decode_stacked(document, pos=0, decoder=JSONDecoder()):
     NOT_WHITESPACE = re.compile(r'[^\s]')
