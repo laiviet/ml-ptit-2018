@@ -41,18 +41,17 @@ train_count, valid_count, test_count=0,0,0
 i=-1
 for obj in decode_stacked(file):
     i+=1
-    start_index=obj['source_tree']['edge'][0]['child_id']
+    start_index=int(obj['source_tree']['node'][1]['word'][0]['id'])
+    end_index=int(obj['source_tree']['node'][-1]['word'][-1]['id'])
+    if end_index-start_index+1>50:
+        continue
     temp=obj['compression_untransformed']['edge']
-    end_index=0
     index_list=[]
     for id in temp:
         index_list.append(id['child_id'])
-        end_index=int(id['child_id'])
-    if end_index-start_index+1>50:
-        continue
     index_list=[x - start_index for x in index_list]
     binary_label=['0']*(end_index-start_index+1)
-    origin_sentence=obj['graph']['sentence']
+    origin_sentence=obj['source_tree']['sentence']
     compresstion_sentence=obj['compression_untransformed']['text']
     for j in index_list:
         binary_label[j]='1'
@@ -71,7 +70,6 @@ for obj in decode_stacked(file):
         write_file(ori_file=test_origin,com_file=test_compresstion,
                     bin_file=test_binary,ori_sentence=origin_sentence,
                     com_sentence=compresstion_sentence,bin_label=binary_label)
-
 print(train_count,valid_count,test_count,i)
 
 train_origin.close()
