@@ -53,6 +53,9 @@ for obj in decode_stacked(file):
     binary_label=['0']*(end_index-start_index+1)
     origin_sentence=obj['source_tree']['sentence']
     compresstion_sentence=obj['compression_untransformed']['text']
+    if not origin_sentence.endswith('.'):
+        origin_sentence=origin_sentence+'.'
+        binary_label.append('1')
     for j in index_list:
         binary_label[j]='1'
     if i in range(0,8000):
