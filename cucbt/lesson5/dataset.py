@@ -1,7 +1,6 @@
 
 import json
-from json import JSONDecoder
-from simplejson import JSONDecodeError
+from json import JSONDecoder, JSONDecodeError
 import re
 
 NOT_WHITESPACE = re.compile(r'[^\s]')
@@ -38,6 +37,7 @@ if __name__ == '__main__':
 
     count = 0
     for item in decode_stacked(data):
+
         sentence = item['graph']['sentence']
         if(sentence[-1] != '.'):
             sentence += '.'
@@ -47,9 +47,25 @@ if __name__ == '__main__':
             sentence += '.'
         com_sentences.append(sentence)
 
+        sentence_id = []
+        sentence = item['graph']['node'][1:]
+        for word in sentence:
+            sentence_id += [word['id'] for i in word['word']]
+        compression_id = [word['child_id'] for i in word['compression_untransformed']['edge']]
+        for i in range(min(sentence_id), max(sentence_id) + 1):
+            if i in compression_id:
+                bin.append('1')
+            else:
+                bin.append('0')
+        bin = ' '.join(bin)
+        bin_sentences.append(bin)
+
     write_file('train.ori', ori_sentences, 0, 8000)
     write_file('train.com', com_sentences, 0, 8000)
+    write_file('train.bin', com_sentences, 0, 8000)
     write_file('valid.ori', ori_sentences, 8000, 9000)
     write_file('valid.com', com_sentences, 8000, 9000)
+    write_file('valid.bin', com_sentences, 8000, 9000)
     write_file('test.ori', ori_sentences, 9000, 10000)
     write_file('test.com', com_sentences, 9000, 10000)
+    write_file('test.bin', com_sentences, 9000, 10000)
