@@ -40,7 +40,7 @@ class LSTM(nn.Module):
         g = self.activation2(self.Wgx(x)+self.Wgh(h))
         c = f*c+i*g
         h = o*self.activation2(c)
-        return h,c
+        return h,c,h
 
 
 
@@ -75,7 +75,7 @@ class RNN(nn.Module):
             if option==1:
                 h,y = self.model(xi,h)
             else:
-                h,c = self.model(xi,h,c)
+                h,c,y = self.model(xi,h,c)
             output = torch.cat((output , y))
         output = output.view((length , self.batch_size , self.output_dim)).transpose(0,1)
         return output
