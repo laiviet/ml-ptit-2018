@@ -8,8 +8,8 @@ class RNN_cell(nn.Module):
         super(RNN_cell, self).__init__()
         self.input_dim = input_dim
         self.hidden_dim = hidden_dim
-        self.wh = nn.Linear(self.input_dim, self.hidden_dim)
-        self.wx = nn.Linear(self.hidden_dim, self.hidden_dim)
+        self.wx = nn.Linear(self.input_dim, self.hidden_dim)
+        self.wh = nn.Linear(self.hidden_dim, self.hidden_dim)
         self.activation = nn.Tanh()
 
     def forward(self, x, ht=None):
@@ -44,14 +44,14 @@ class LSTM_cell(nn.Module):
         super(LSTM_cell, self).__init__()
         self.input_dim = input_dim
         self.hidden_dim = hidden_dim
-        self.whi = nn.Linear(self.input_dim, self.hidden_dim)
-        self.wxi = nn.Linear(self.hidden_dim, self.hidden_dim)
-        self.whf = nn.Linear(self.input_dim, self.hidden_dim)
-        self.wxf = nn.Linear(self.hidden_dim, self.hidden_dim)
-        self.who = nn.Linear(self.input_dim, self.hidden_dim)
-        self.wxo = nn.Linear(self.hidden_dim, self.hidden_dim)
-        self.whg = nn.Linear(self.input_dim, self.hidden_dim)
-        self.wxg = nn.Linear(self.hidden_dim, self.hidden_dim)
+        self.wxi = nn.Linear(self.input_dim, self.hidden_dim)
+        self.whi = nn.Linear(self.hidden_dim, self.hidden_dim)
+        self.wxf = nn.Linear(self.input_dim, self.hidden_dim)
+        self.whf = nn.Linear(self.hidden_dim, self.hidden_dim)
+        self.wxo = nn.Linear(self.input_dim, self.hidden_dim)
+        self.who = nn.Linear(self.hidden_dim, self.hidden_dim)
+        self.wxg = nn.Linear(self.input_dim, self.hidden_dim)
+        self.whg = nn.Linear(self.hidden_dim, self.hidden_dim)
         self.tanh = nn.Tanh()
         self.sigmoi = nn.Sigmoid()
 
