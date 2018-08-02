@@ -23,8 +23,8 @@ class CIFAR10(Dataset):
     test_list = [
         ['test_batch'],
     ]
-    # data_path = "../cifar-10-batches-py/"
-    data_path ="/home/student/hientm_folder/jupyter/data/cifar-10-batches-py/"
+    data_path = "/home/cucbui/code/code/CIFAR10/cifar-10-batches-py/"
+    # data_path ="/home/student/hientm_folder/jupyter/data/cifar-10-batches-py/"
 
     def __init__(self, data_type, transform=None):
         self.transform = transform
