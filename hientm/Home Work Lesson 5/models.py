@@ -1,6 +1,7 @@
 import numpy as np
 import torch
 import torch.nn as nn
+from torch.autograd import Variable
 
 
 class RNN_cell(nn.Module):
@@ -30,12 +31,16 @@ class RNN(nn.Module):
         self.linear = nn.Linear(self.hidden_dim, self.output_dim)
 
     def forward(self, x, h=None):
-        outputs = []
+        # b, l, d
+        batch_size = x.shape[0]
+        x = x.transpose(0, 1) # l, b, d
+        llen = x.shape[0]
+        outputs = Variable(torch.FloatTensor(np.empty(0)))
         for xi in x:
             h = self.rnn_cell(xi, h)
             y = self.linear(h)
-            outputs.append(y)
-        outputs = torch.tensor(outputs)
+            outputs = torch.cat((outputs, y))
+        outputs = outputs.view((llen, batch_size, self.output_dim)).transpose(0, 1)
         return outputs
 
 
@@ -81,10 +86,13 @@ class LSTM(nn.Module):
         self.linear = nn.Linear(self.hidden_dim, self.output_dim)
 
     def forward(self, x, h=None, c=None):
-        outputs = []
+        batch_size = x.shape[0]
+        x = x.transpose(0, 1)  # l, b, d
+        llen = x.shape[0]
+        outputs = Variable(torch.FloatTensor(np.empty(0)))
         for xi in x:
             h, c = self.lstm_cell(xi, h, c)
             y = self.linear(h)
-            outputs.append(y)
-        outputs = torch.tensor(outputs)
+            outputs = torch.cat((outputs, y))
+        outputs = outputs.view((llen, batch_size, self.output_dim)).transpose(0, 1)
         return outputs
