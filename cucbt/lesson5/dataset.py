@@ -18,11 +18,12 @@ def decode_stacked(document, pos=0, decoder=JSONDecoder()):
             raise
         yield obj
 
-def write_file(file_path, list, begin, end):
+def write_file(file_path, list, begin, end, len):
     file = open(file_path, 'w+')
     for i in range(begin, end):
-        file.write(list[i])
-        file.write("\n")
+        if(len[i] == 1):
+            file.write(list[i])
+            file.write("\n")
     file.close()
 
 if __name__ == '__main__':
@@ -31,13 +32,18 @@ if __name__ == '__main__':
     ori_sentences = []
     com_sentences = []
     bin_sentences = []
+    len = []
 
     with open (data_file) as f:
         data = f.read()
 
     count = 0
     for item in decode_stacked(data):
-
+        bin = []
+        begin = item['source_tree']['node'][1]['word'][0]['id']
+        end = item['source_tree']['node'][-1]['word'][0]['id']
+        l = end - begin + 1
+        len.append(1) if l <= 50 else len.append(0)
         sentence = item['graph']['sentence']
         if(sentence[-1] != '.'):
             sentence += '.'
@@ -46,26 +52,19 @@ if __name__ == '__main__':
         if (sentence[-1] != '.'):
             sentence += '.'
         com_sentences.append(sentence)
-
-        sentence_id = []
-        sentence = item['graph']['node'][1:]
-        for word in sentence:
-            sentence_id += [word['id'] for i in word['word']]
-        compression_id = [word['child_id'] for i in word['compression_untransformed']['edge']]
-        for i in range(min(sentence_id), max(sentence_id) + 1):
-            if i in compression_id:
-                bin.append('1')
-            else:
-                bin.append('0')
-        bin = ' '.join(bin)
+        for i in range(l):
+            bin.append('0')
+        for i in item['compression_untransformed']['edge']:
+            bin[i['child_id'] - begin] = '1'
+        bin = ''.join(bin)
         bin_sentences.append(bin)
 
-    write_file('train.ori', ori_sentences, 0, 8000)
-    write_file('train.com', com_sentences, 0, 8000)
-    write_file('train.bin', com_sentences, 0, 8000)
-    write_file('valid.ori', ori_sentences, 8000, 9000)
-    write_file('valid.com', com_sentences, 8000, 9000)
-    write_file('valid.bin', com_sentences, 8000, 9000)
-    write_file('test.ori', ori_sentences, 9000, 10000)
-    write_file('test.com', com_sentences, 9000, 10000)
-    write_file('test.bin', com_sentences, 9000, 10000)
+    write_file('train.ori', ori_sentences, 0, 8000, len)
+    write_file('train.com', com_sentences, 0, 8000, len)
+    write_file('train.bin', bin_sentences, 0, 8000, len)
+    write_file('valid.ori', ori_sentences, 8000, 9000, len)
+    write_file('valid.com', com_sentences, 8000, 9000, len)
+    write_file('valid.bin', bin_sentences, 8000, 9000, len)
+    write_file('test.ori', ori_sentences, 9000, 10000, len)
+    write_file('test.com', com_sentences, 9000, 10000, len)
+    write_file('test.bin', bin_sentences, 9000, 10000, len)
