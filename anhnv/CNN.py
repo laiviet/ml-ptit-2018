@@ -1,6 +1,7 @@
 import tensorflow as tf
 from tensorflow.examples.tutorials.mnist import input_data
-
+import os
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
 
 mnist = input_data.read_data_sets("/tmp/data/", one_hot=True, reshape=False)
 batch_size = 2
@@ -174,6 +175,6 @@ for epoch in range(training_epochs):
         trainer.run(feed_dict={X: train_X, t: train_ys})
         avg_cost += loss.eval(feed_dict={X: train_X, t: train_ys}) / num_batch
 
-    print("Epoch:", '%04d' % (epoch + 1), "cost=", "{:.9f}".format(avg_cost), flush=True)
-    print(accuracy(softmax_layer, t).eval(feed_dict={X: test_x, t: test_t}))
+    print("Epoch:", '%04d' % (epoch + 1), "cost=", "{:.9f}".format(avg_cost), "accuracy=", "{:.9f}".format(accuracy(softmax_layer, t).eval(feed_dict={X: test_x, t: test_t})), flush=True)
+
 session.close()
