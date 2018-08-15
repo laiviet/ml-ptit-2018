@@ -1,32 +1,45 @@
 import json
 import numpy as np
+import torch.utils.data as data
 
 
-class DataLoader:
-    def __init__(self):
-        self.dir_path = '/home/chiendb/Data/sentence-compression-data/'
-        self.seq_len = 100
+class Loader(data.Dataset):
+    def __init__(self, type):
+        self.dir_path = '/home/student/chiendb/data/'
+        self.seq_len = 50
         self.input_dim = 100
-        self.dictionary = {}
-        self.word_matrix = []
-        with open('/home/chiendb/Data/glove.6B/glove.6B.100d.txt', 'r') as f:
-            lines = f.readlines()
+        self.type = type
 
-        for i, line in enumerate(lines):
-            word = line.split()
-            self.dictionary[word[0]] = i
-            self.word_matrix.append([float(word[i]) for i in range(1, len(word))])
+        if self.type == 0:
+            self.features = self.read_file(self.dir_path + 'train.ori')
+            self.target = self.read_file(self.dir_path + 'train.bin')
+        elif self.type == 1:
+            self.features = self.read_file(self.dir_path + 'valid.ori')
+            self.target = self.read_file(self.dir_path + 'valid.bin')
+        else:
+            self.features = self.read_file(self.dir_path + 'test.ori')
+            self.target = self.read_file(self.dir_path + 'test.bin')
+
+        target_ = []
+        for y_ in self.target:
+            y = y_.split()
+            len_ = len(y)
+            target_.append([y[i] if i < len_ else 0 for i in range(self.seq_len)])
+
+        self.target = target_
 
     def write_file(self, file_path, arr):
         f = open(file_path, 'w')
         for line in arr:
             f.write('{}\n'.format(line))
 
+        f.close()
+
     def read_file(self, file_path):
         with open(file_path, 'r') as f:
             lines = f.readlines()
 
-        return lines
+        return [line.replace('\n', '') for line in lines]
 
     def crawler(self):
         with open(self.dir_path + 'compression-data.json', 'r') as f:
@@ -71,36 +84,9 @@ class DataLoader:
         self.write_file(self.dir_path + 'valid.bin', bins[8000:9000])
         self.write_file(self.dir_path + 'test.bin', bins[9000:])
 
-    def word2vec(self, lines):
-        X = np.zeros((len(lines), self.seq_len, self.input_dim))
-        for i, line in enumerate(lines):
-            words = line.split()
-            num_words = len(words)
-            for j, word in enumerate(words):
-                X[i][self.seq_len-num_words+j] = self.word_matrix[self.dictionary[word]]
+    def __getitem__(self, index):
+        return self.features[index], self.target[index]
 
-        return X
+    def __len__(self):
+        return len(self.features)
 
-    def str2int(self, lines):
-        Y = np.zeros((len(lines), self.seq_len))
-        for i, line in enumerate(lines):
-            num = len(line.split())
-            for j, v in enumerate(line.split()):
-                Y[i][self.seq_len-num+j] = v
-
-        return Y
-
-    def get_data(self):
-        features_train = self.word2vec(self.read_file(self.dir_path + 'train.ori'))
-        target_train = self.str2int(self.read_file(self.dir_path + 'train.bin'))
-        features_valid = self.word2vec(self.read_file(self.dir_path + 'valid.ori'))
-        target_valid = self.str2int(self.read_file(self.dir_path + 'valid.bin'))
-        features_test = self.word2vec(self.read_file(self.dir_path + 'test.ori'))
-        target_test = self.str2int(self.read_file(self.dir_path + 'test.bin'))
-        return {'feutures': features_train, 'target': target_train}, \
-               {'feutures': features_valid, 'target': target_valid}, \
-               {'feutures': features_test, 'target': target_test}
-
-
-data_loader = DataLoader()
-# data_loader.crawler()
