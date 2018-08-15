@@ -15,8 +15,8 @@ class RNN_cell(nn.Module):
 
     def forward(self, x, ht=None):
         # init h0 = 0
-        if not ht:
-            ht = torch.zeros(1, self.hidden_dim)
+        if ht is None:
+            ht = Variable(torch.FloatTensor(np.zeros((1 , self.hidden_dim))))
         x = self.activation(self.wx(x) + self.wh(ht))
         return x
 
@@ -61,12 +61,13 @@ class LSTM_cell(nn.Module):
         self.sigmoi = nn.Sigmoid()
 
     def forward(self, x, ht=None, ct=None):
+        # x: b x d
         # init h0 = 0
-        if not ht:
-            ht = torch.zeros(1, self.hidden_dim)
+        if ht is None:
+            ht = torch.FloatTensor(np.zeros((x.shape[0] , self.hidden_dim)))
         # init c0 = 1
-        if not ct:
-            ct = torch.zeros(1, self.hidden_dim) + 1
+        if ct is None:
+            ct = Variable(torch.FloatTensor(np.zeros((x.shape[0] , self.hidden_dim))) + 1)
         i = self.sigmoi(self.wxi(x) + self.whi(ht))
         f = self.sigmoi(self.wxf(x) + self.whf(ht))
         o = self.sigmoi(self.wxo(x) + self.who(ht))
@@ -83,16 +84,18 @@ class LSTM(nn.Module):
         self.hidden_dim = hidden_dim
         self.output_dim = output_dim
         self.lstm_cell = LSTM_cell(self.input_dim, self.hidden_dim)
-        self.linear = nn.Linear(self.hidden_dim, self.output_dim)
+        self.linear = nn.Linear(self.hidden_dim, output_dim)
 
-    def forward(self, x, h=None, c=None):
+    def forward(self, x):
+        h=None
+        c=None
         batch_size = x.shape[0]
+        length = x.shape[1]
         x = x.transpose(0, 1)  # l, b, d
-        llen = x.shape[0]
         outputs = Variable(torch.FloatTensor(np.empty(0)))
         for xi in x:
             h, c = self.lstm_cell(xi, h, c)
             y = self.linear(h)
             outputs = torch.cat((outputs, y))
-        outputs = outputs.view((llen, batch_size, self.output_dim)).transpose(0, 1)
+        outputs = outputs.view((self.output_dim, batch_size, length)).transpose(0, 1)
         return outputs
