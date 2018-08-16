@@ -13,9 +13,9 @@ from sklearn.metrics import accuracy_score
 train_data = Loader(0)
 valid_data = Loader(1)
 test_data = Loader(2)
-train_data = DataLoader(train_data, batch_size=64, shuffle=True, num_workers=32)
-valid_data = DataLoader(valid_data, batch_size=64, shuffle=False, num_workers=32)
-test_data = DataLoader(test_data, batch_size=64, shuffle=False, num_workers=32)
+train_data = DataLoader(train_data, batch_size=64, shuffle=True, num_workers=4)
+valid_data = DataLoader(valid_data, batch_size=64, shuffle=False, num_workers=4)
+test_data = DataLoader(test_data, batch_size=64, shuffle=False, num_workers=4)
 
 # ------------------------------------------------------------------------------ #
 # read word2vec
@@ -32,12 +32,12 @@ for i, line in enumerate(lines):
 weight_matrix = np.array(weight_matrix)
 
 # ------------------------------------------------------------------------------- #
-model = SentenceCompression(100, 100, 50, 2, dictionary, weight_matrix)
+model = SentenceCompression(100, 100, 50, 2, weight_matrix, dictionary)
 lr = 0.01
 num_epoch = 20
 
-criterion = nn.NLLLoss().cuda()
-optimizer = optim.SGD(model.parameters(), lr=lr)
+criterion = nn.CrossEntropyLoss().cuda()
+optimizer = optim.SGD(filter(lambda p: p.requires_grad, model.parameters()), lr=lr)
 
 print('Done load_model')
 
@@ -47,8 +47,10 @@ for e in range(num_epoch):
     l = 0
     for data in train_data:
         features, target = data
-
-        features, target = Variable(features), Variable(target)
+        print(len(features))
+        print(len(target))
+        target = torch.Tensor(target).long()
+        target = Variable(target)
         y_hat = model(features)
         loss = criterion(y_hat, target)
         optimizer.zero_grad()
@@ -64,16 +66,10 @@ for e in range(num_epoch):
     y = []
     output = []
     for data in valid_data:
-        features, target, lens = data
+        features, target = data
+        features, target = torch.Tensor(features), torch.Tensor(target).long()
         y += target.numpy().tolist()
-        features, target, lens = features.numpy(), target.numpy(), lens.numpy()
-        indict = np.argsort(lens)
-        indict = indict[::-1]
-        features = [features[i] for i in indict]
-        target = [target[i] for i in indict]
-        lens = [lens[i] for i in indict]
-        features, target, lens = torch.Tensor(features).float(), torch.Tensor(target).long(), torch.Tensor(lens).long()
-        packed = nn.utils.rnn.pack_padded_sequence(features, lens, batch_first=True)
+        features, target = Variable(features), Variable(target)
         target = Variable(target)
         y_hat = model(features)
         loss = criterion(y_hat, target)
@@ -90,17 +86,10 @@ for e in range(num_epoch):
     y = []
     output = []
     for data in valid_data:
-        features, target, lens = data
+        features, target = data
+        features, target = torch.Tensor(features), torch.Tensor(target).long()
         y += target.numpy().tolist()
-        features, target, lens = features.numpy(), target.numpy(), lens.numpy()
-        indict = np.argsort(lens)
-        indict = indict[::-1]
-        features = [features[i] for i in indict]
-        target = [target[i] for i in indict]
-        lens = [lens[i] for i in indict]
-        features, target, lens = torch.Tensor(features).float(), torch.Tensor(target).long(), torch.Tensor(lens).long()
-        packed = nn.utils.rnn.pack_padded_sequence(features, lens, batch_first=True)
-        target = Variable(target)
+        features, target = Variable(features), Variable(target)
         y_hat = model(features)
         loss = criterion(y_hat, target)
         _, y_pred = torch.max(y_hat, 1)

@@ -24,9 +24,9 @@ class Loader(data.Dataset):
         for y_ in self.target:
             y = y_.split()
             len_ = len(y)
-            target_.append([y[i] if i < len_ else 0 for i in range(self.seq_len)])
+            target_.append([int(y[i]) if i < len_ else 0 for i in range(self.seq_len)])
 
-        self.target = target_
+        self.target = np.array(target_)
 
     def write_file(self, file_path, arr):
         f = open(file_path, 'w')

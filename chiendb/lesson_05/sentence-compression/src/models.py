@@ -15,13 +15,14 @@ class SentenceCompression(nn.Module):
         self.num_classes = num_classes
         self.dictionary = dictionary
         self.embed = nn.Embedding(len(dictionary), input_size)
-        self.embed.weight.data.copy_(torch.Tensor(weight_matrix))
+        self.embed.weight.data = torch.Tensor(weight_matrix)
+        self.embed.weight.requires_grad = False
         self.lstm = nn.LSTM(input_size, hidden_size, num_layers=2, bidirectional=True, batch_first=True)
-        self.linear = nn.Linear(self.hidden_dim, self.num_classes)
+        self.linear = nn.Linear(self.hidden_size, self.num_classes)
 
     def tensor2pad(self, sent_variable):
-        sent_len = np.zeros([sent_variable.size()[0]], dtype=np.int)
-        features = np.zeros([sent_variable.size()[0], self.input_size], dtype=np.float)
+        sent_len = np.zeros([sent_variable.size()], dtype=np.int)
+        features = np.zeros([sent_variable.size(), self.input_size], dtype=np.float)
         for i, words in enumerate(sent_variable):
             for j, word in enumerate(words.split()):
                 if j >= self.seq_len:
@@ -49,6 +50,8 @@ class SentenceCompression(nn.Module):
         X = self.lstm(X)[0]
         # seq_len*batch*hidden_size
         X = pad_packed_sequence(X, batch_first=True)[0]
+        X = X.transpose(0, 1)
+        print(X.size())
         X = X.index_select(0, Variable(idx_unsort))
         X = self.linear(X)
         return X
