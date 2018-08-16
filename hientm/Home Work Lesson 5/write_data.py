@@ -33,24 +33,26 @@ def write_data():
         count += 1
         index_start = obj['source_tree']['node'][1]['word'][0]['id']
         index_end = obj['source_tree']['node'][-1]['word'][0]['id']
-        temp = list('0' for i in range(index_end - index_start + 1))
-
-        if index_start - index_end >= 49:
+        temp1 = obj['source_tree']['node']
+        sentence = []
+        for word in temp1[1:]:
+            sentence.append(word['form'])
+        if len(sentence) > 50:
             continue
-
-        sentence = obj['graph']['sentence']
+        temp = list('0' for i in range(len(sentence)))
         if sentence[-1] != '.':
-            sentence += '.'
+            sentence.append('.')
             temp.append('1')
-        ori_sentences.append(sentence)
-
+        sentence1 = ' '.join(sentence)
+        ori_sentences.append(sentence1)
         com = obj['compression_untransformed']['text']
         if com[-1] != '.':
             com += '.'
         com_sentences.append(com)
 
         for i in obj['compression_untransformed']['edge']:
-            temp[i['child_id'] - index_start] = '1'
+            if i['child_id'] - index_start < len(temp):
+                temp[i['child_id'] - index_start] = '1'
         bin_sentences.append(''.join(temp))
         if count == 8000:
             train_size = len(ori_sentences)
