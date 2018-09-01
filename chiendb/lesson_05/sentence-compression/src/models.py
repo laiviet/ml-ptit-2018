@@ -1,58 +1,48 @@
 from builtins import super
-import torch.nn as nn
 import torch
+import torch.nn as nn
 import numpy as np
 from torch.autograd import Variable
-from torch.nn.utils.rnn import pack_padded_sequence, pad_packed_sequence
-
 
 class SentenceCompression(nn.Module):
-    def __init__(self, input_size, hidden_size, seq_len, num_classes, weight_matrix, dictionary):
+    def __init__(self, input_size, hidden_size, seq_len, num_classes, weight_matrix, dictionary_len):
         super(SentenceCompression, self).__init__()
         self.input_size = input_size
         self.hidden_size = hidden_size
         self.seq_len = seq_len
         self.num_classes = num_classes
-        self.dictionary = dictionary
-        self.embed = nn.Embedding(len(dictionary), input_size)
+        self.batch_size = None
+        self.embed = nn.Embedding(dictionary_len, input_size)
         self.embed.weight.data = torch.Tensor(weight_matrix)
         self.embed.weight.requires_grad = False
-        self.lstm = nn.LSTM(input_size, hidden_size, num_layers=2, bidirectional=True, batch_first=True)
+        self.lstm_cell = nn.LSTMCell(self.input_size, self.hidden_size)
         self.linear = nn.Linear(self.hidden_size, self.num_classes)
 
-    def tensor2pad(self, sent_variable):
-        sent_len = np.zeros([sent_variable.size()], dtype=np.int)
-        features = np.zeros([sent_variable.size(), self.input_size], dtype=np.float)
-        for i, words in enumerate(sent_variable):
-            for j, word in enumerate(words.split()):
-                if j >= self.seq_len:
-                    break
+    def init_hc(self):
+        h0 = Variable(torch.Tensor(np.zeros((self.batch_size, self.hidden_size)))).cuda()
+        c0 = Variable(torch.Tensor(np.zeros((self.batch_size, self.hidden_size)))).cuda()
+        return h0, c0
 
-                if word in self.dictionary:
-                    features[i][j] = self.dictionary[word]
-                else:
-                    features[i][j] = self.dictionary['.']
+    def forward(self, x, lengths):
+        self.batch_size = x.size()[0]
+        x = x.transpose(0, 1)
+        x = self.embed(x)
+        h, c = self.init_hc()
+        output = Variable(torch.FloatTensor(np.empty(0))).cuda()
+        for xi in x:
+            h, c = self.lstm_cell(xi, (h, c))
+            output = torch.cat((output, h))
 
-            sent_len = min(self.seq_len, len(words.split()))
+        # output: L*B*D
+        output = self.linear(output)
+        output = output.view(self.seq_len, self.batch_size, self.num_classes).transpose(0, 1)
+        # output: B*L*2
+        for i in range(self.batch_size):
+            for j in range(lengths[i], self.seq_len):
+                output[i][j] = torch.Tensor(np.array([1, 0])).float()
 
-        features = Variable(self.embed(features))
-        sent_len, idx_sort = np.sort(sent_len)[::-1], np.argsort(-sent_len)
-        sent_len = torch.Tensor.long()
-        idx_unsort = torch.Tensor(np.argsort(idx_sort)).long()
-        idx_sort = torch.Tensor(idx_sort).long()
-        features = features.index_select(0, Variable(idx_sort))
-        return pack_padded_sequence(features, sent_len, batch_first=True), idx_unsort
+        output = output.contiguous().view(self.batch_size*self.seq_len, self.num_classes)
+        return output
 
-    def forward(self, X):
-        # batch*seq_len*input_dim
-        X, idx_unsort = self.tensor2pad(X)
-        # seq_len*batch*input_dim
-        X = self.lstm(X)[0]
-        # seq_len*batch*hidden_size
-        X = pad_packed_sequence(X, batch_first=True)[0]
-        X = X.transpose(0, 1)
-        print(X.size())
-        X = X.index_select(0, Variable(idx_unsort))
-        X = self.linear(X)
-        return X
+
 

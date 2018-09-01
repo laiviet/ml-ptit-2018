@@ -8,14 +8,21 @@ import torch.optim as optim
 from torch.autograd import Variable
 from sklearn.metrics import accuracy_score
 
-# ------------------------------------------------------------------------------ #
-# read data
-train_data = Loader(0)
-valid_data = Loader(1)
-test_data = Loader(2)
-train_data = DataLoader(train_data, batch_size=64, shuffle=True, num_workers=4)
-valid_data = DataLoader(valid_data, batch_size=64, shuffle=False, num_workers=4)
-test_data = DataLoader(test_data, batch_size=64, shuffle=False, num_workers=4)
+
+def delete_excess(input, lens, max_len):
+    output = []
+    for i in range(len(input)//max_len):
+        for j in range(max_len):
+            if j < lens[i]:
+                output.append(input[i*max_len+j])
+    return output
+
+
+def adjust_learning_rate(optimizer, t):
+    lr = 0.002 * (0.5 ** (t // 10))
+    for param_group in optimizer.param_groups:
+        param_group['lr'] = lr
+    return optimizer
 
 # ------------------------------------------------------------------------------ #
 # read word2vec
@@ -32,50 +39,59 @@ for i, line in enumerate(lines):
 weight_matrix = np.array(weight_matrix)
 
 # ------------------------------------------------------------------------------- #
-model = SentenceCompression(100, 100, 50, 2, weight_matrix, dictionary)
-lr = 0.01
-num_epoch = 20
+# read data
+train_data = Loader(0, dictionary)
+valid_data = Loader(1, dictionary)
+test_data = Loader(2, dictionary)
+train_data = DataLoader(train_data, batch_size=64, shuffle=True, num_workers=4)
+valid_data = DataLoader(valid_data, batch_size=64, shuffle=False, num_workers=4)
+test_data = DataLoader(test_data, batch_size=64, shuffle=False, num_workers=4)
+
+# ------------------------------------------------------------------------------ #
+model = SentenceCompression(100, 100, 50, 2, weight_matrix, len(dictionary)).cuda()
+lr = 0.001
+num_epoch = 30
 
 criterion = nn.CrossEntropyLoss().cuda()
-optimizer = optim.SGD(filter(lambda p: p.requires_grad, model.parameters()), lr=lr)
-
-print('Done load_model')
+optimizer = optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=lr, weight_decay=0.0001)
 
 for e in range(num_epoch):
-    log = open('log.txt', 'a')
+    log = open('../log/log.txt', 'a')
     print('------------------- Epoch: {}-----------------------'.format(e), file=log)
+    optimizer = adjust_learning_rate(optimizer, e)
     l = 0
+    y = []
+    output = []
     for data in train_data:
-        features, target = data
-        print(len(features))
-        print(len(target))
-        target = torch.Tensor(target).long()
-        target = Variable(target)
-        y_hat = model(features)
+        features, target, lengths = data
+        target = target.view(-1)
+        y += delete_excess(target.numpy().tolist(), lengths.numpy().tolist(), 50)
+        features, target, lengths = Variable(features).cuda(), Variable(target).cuda(), Variable(lengths).cuda()
+        y_hat = model(features, lengths)
         loss = criterion(y_hat, target)
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
         l += loss.item()
-        print('Done loss {}'.format(loss.item))
+        _, y_pred = torch.max(y_hat, 1)
+        output += delete_excess(y_pred.cpu().numpy().tolist(), lengths.cpu().numpy().tolist(), 50)
 
-    print('train: loss = {}'.format(l), file=log)
+    acc = accuracy_score(y, output)
+    print('train: loss = {}, acc = {}'.format(l, acc), file=log)
 
     # -----------------valid------------------------
     l = 0
     y = []
     output = []
     for data in valid_data:
-        features, target = data
-        features, target = torch.Tensor(features), torch.Tensor(target).long()
-        y += target.numpy().tolist()
-        features, target = Variable(features), Variable(target)
-        target = Variable(target)
-        y_hat = model(features)
+        features, target, lengths = data
+        target = target.view(-1)
+        y += delete_excess(target.numpy().tolist(), lengths.numpy().tolist(), 50)
+        features, target, lengths = Variable(features).cuda(), Variable(target).cuda(), Variable(lengths).cuda()
+        y_hat = model(features, lengths)
         loss = criterion(y_hat, target)
         _, y_pred = torch.max(y_hat, 1)
-        y_pred = y_pred.cpu().numpy().tolist()
-        output += y_pred
+        output += delete_excess(y_pred.cpu().numpy().tolist(), lengths.cpu().numpy().tolist(), 50)
         l += loss.item()
 
     acc = accuracy_score(y, output)
@@ -85,16 +101,15 @@ for e in range(num_epoch):
     l = 0
     y = []
     output = []
-    for data in valid_data:
-        features, target = data
-        features, target = torch.Tensor(features), torch.Tensor(target).long()
-        y += target.numpy().tolist()
-        features, target = Variable(features), Variable(target)
-        y_hat = model(features)
+    for data in test_data:
+        features, target, lengths = data
+        target = target.view(-1)
+        y += delete_excess(target.numpy().tolist(), lengths.numpy().tolist(), 50)
+        features, target, lengths = Variable(features).cuda(), Variable(target).cuda(), Variable(lengths).cuda()
+        y_hat = model(features, lengths)
         loss = criterion(y_hat, target)
         _, y_pred = torch.max(y_hat, 1)
-        y_pred = y_pred.cpu().numpy().tolist()
-        output += y_pred
+        output += delete_excess(y_pred.cpu().numpy().tolist(), lengths.cpu().numpy().tolist(), 50)
         l += loss.item()
 
     acc = accuracy_score(y, output)
@@ -102,6 +117,6 @@ for e in range(num_epoch):
 
     log.close()
 
-torch.save(model, '/data01/orm/flask_app/model/classifier.pt')
+torch.save(model, '../log/model.pt')
 
 print('Done')

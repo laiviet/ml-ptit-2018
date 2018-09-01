@@ -4,8 +4,9 @@ import torch.utils.data as data
 
 
 class Loader(data.Dataset):
-    def __init__(self, type):
+    def __init__(self, type, dictionary):
         self.dir_path = '/home/student/chiendb/data/'
+        self.dictionary = dictionary
         self.seq_len = 50
         self.input_dim = 100
         self.type = type
@@ -19,7 +20,7 @@ class Loader(data.Dataset):
         else:
             self.features = self.read_file(self.dir_path + 'test.ori')
             self.target = self.read_file(self.dir_path + 'test.bin')
-
+        # ---------------------------------------------------------------
         target_ = []
         for y_ in self.target:
             y = y_.split()
@@ -27,6 +28,22 @@ class Loader(data.Dataset):
             target_.append([int(y[i]) if i < len_ else 0 for i in range(self.seq_len)])
 
         self.target = np.array(target_)
+
+        # ----------------------------------------------------------------
+        self.length_sent = np.zeros([len(self.features)], dtype=np.int)
+        features_ = np.zeros([len(self.features), self.seq_len], dtype=np.int)
+        for i, line in enumerate(self.features):
+            self.length_sent[i] = min(self.seq_len, len(line.split()))
+            for j, word in enumerate(line.split()):
+                if j >= self.seq_len:
+                    break
+
+                if word in self.dictionary:
+                    features_[i][j] = dictionary[word]
+                else:
+                    features_[i][j] = dictionary['and']
+
+        self.features = features_
 
     def write_file(self, file_path, arr):
         f = open(file_path, 'w')
@@ -85,7 +102,7 @@ class Loader(data.Dataset):
         self.write_file(self.dir_path + 'test.bin', bins[9000:])
 
     def __getitem__(self, index):
-        return self.features[index], self.target[index]
+        return self.features[index], self.target[index], self.length_sent[index]
 
     def __len__(self):
         return len(self.features)
