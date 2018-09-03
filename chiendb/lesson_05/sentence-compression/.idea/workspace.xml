@@ -2,10 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="37251f23-0fde-4560-ac41-e0b458fcc302" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/log/model.pt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/log/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/log/log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/dataloader.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/dataloader.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/log.txt" beforeDir="false" afterPath="$PROJECT_DIR$/log/log.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/main.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/models.py" afterDir="false" />
     </list>
@@ -23,37 +22,37 @@
     <session id="109441483">
       <usages-collector id="statistics.lifecycle.project">
         <counts>
-          <entry key="project.closed" value="14" />
+          <entry key="project.closed" value="16" />
           <entry key="project.open.time.0" value="2" />
           <entry key="project.open.time.13" value="1" />
           <entry key="project.open.time.6" value="1" />
-          <entry key="project.open.time.7" value="4" />
-          <entry key="project.open.time.8" value="7" />
-          <entry key="project.opened" value="15" />
+          <entry key="project.open.time.7" value="5" />
+          <entry key="project.open.time.8" value="8" />
+          <entry key="project.opened" value="17" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
         <counts>
           <entry key="pt" value="1" />
           <entry key="py" value="4" />
-          <entry key="txt" value="6" />
+          <entry key="txt" value="9" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.open">
         <counts>
           <entry key="Chameleon" value="1" />
-          <entry key="Hoi4 file" value="6" />
+          <entry key="Hoi4 file" value="9" />
           <entry key="Python" value="4" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="9355" />
+          <entry key="py" value="10419" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="9355" />
+          <entry key="Python" value="10419" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
@@ -64,22 +63,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/models.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="510">
-              <caret line="43" column="89" selection-start-line="43" selection-start-column="89" selection-end-line="43" selection-end-column="89" />
+            <state relative-caret-position="210">
+              <caret line="14" column="30" lean-forward="true" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
               <folding>
-                <marker date="1535801735603" expanded="true" signature="80:118" ph="..." />
-                <marker date="1535801735603" expanded="true" signature="797:1029" ph="..." />
-                <marker date="1535801735603" expanded="true" signature="821:1029" ph="..." />
+                <element signature="e#0#26#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-476">
-              <caret line="52" column="13" selection-start-line="52" selection-start-column="13" selection-end-line="52" selection-end-column="13" />
+            <state relative-caret-position="165">
+              <caret line="20" column="39" lean-forward="true" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
               <folding>
                 <element signature="e#0#29#0" expanded="true" />
               </folding>
@@ -87,41 +84,25 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/log/model.pt">
-          <provider selected="true" editor-type-id="text-editor" />
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/log/log.txt">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="57" lean-forward="true" selection-start-line="14" selection-start-column="57" selection-end-line="14" selection-end-column="57" />
-            </state>
+            <state relative-caret-position="-616" />
           </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="remoteDeploymentFS://&lt;6eed2e48-8a5d-4bcc-ad60-8a6683549445&gt;/RNN/log/log.txt">
-          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/dataloader.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="379">
-              <caret line="45" column="33" selection-start-line="45" selection-start-column="33" selection-end-line="45" selection-end-column="33" />
+            <state relative-caret-position="-285">
+              <caret line="20" column="70" lean-forward="true" selection-start-line="20" selection-start-column="70" selection-end-line="20" selection-end-column="70" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
-                <element signature="e#1038#1147#0" />
-                <element signature="e#1193#1317#0" />
-                <element signature="e#1350#3196#0" />
-                <element signature="e#1596#2553#0" />
-                <marker date="1535797277146" expanded="true" signature="92:97" ph="..." />
-                <marker date="1535797277146" expanded="true" signature="1827:1836" ph="..." />
-                <marker date="1535797277146" expanded="true" signature="1827:2121" ph="..." />
-                <marker date="1535797277146" expanded="false" signature="1982:2121" ph="..." />
-                <marker date="1535797277146" expanded="true" signature="3995:4000" ph="..." />
+                <marker date="1535959305915" expanded="true" signature="92:97" ph="..." />
+                <marker date="1535959305915" expanded="true" signature="1917:1926" ph="..." />
+                <marker date="1535959305915" expanded="true" signature="1917:2211" ph="..." />
+                <marker date="1535959305915" expanded="true" signature="2072:2211" ph="..." />
+                <marker date="1535959305915" expanded="true" signature="4085:4090" ph="..." />
               </folding>
             </state>
           </provider>
@@ -143,9 +124,10 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/link.txt" />
+        <option value="&lt;6eed2e48-8a5d-4bcc-ad60-8a6683549445&gt;/RNN/log/log.txt" />
+        <option value="$PROJECT_DIR$/log/log.txt" />
         <option value="$PROJECT_DIR$/src/dataloader.py" />
         <option value="$PROJECT_DIR$/src/models.py" />
-        <option value="&lt;6eed2e48-8a5d-4bcc-ad60-8a6683549445&gt;/RNN/log/log.txt" />
         <option value="$PROJECT_DIR$/src/main.py" />
       </list>
     </option>
@@ -336,7 +318,7 @@
     <frame x="67" y="25" width="1853" height="1175" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.19645822" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.20088544" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -358,7 +340,7 @@
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
       <window_info anchor="right" id="SciView" order="3" />
       <window_info anchor="right" id="Database" order="4" />
-      <window_info anchor="right" id="Remote Host" order="5" visible="true" weight="0.2722745" />
+      <window_info anchor="right" id="Remote Host" order="5" visible="true" weight="0.17044826" />
       <window_info anchor="right" x="0" y="0" width="413" height="975" id="Documentation" order="6" side_tool="true" weight="0.32982844" />
     </layout>
   </component>
@@ -370,58 +352,48 @@
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/link.txt" />
-    <entry file="file://$PROJECT_DIR$/src/dataloader.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="379">
-          <caret line="45" column="33" selection-start-line="45" selection-start-column="33" selection-end-line="45" selection-end-column="33" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-            <element signature="e#1038#1147#0" />
-            <element signature="e#1193#1317#0" />
-            <element signature="e#1350#3196#0" />
-            <element signature="e#1596#2553#0" />
-            <marker date="1535797277146" expanded="true" signature="92:97" ph="..." />
-            <marker date="1535797277146" expanded="true" signature="1827:1836" ph="..." />
-            <marker date="1535797277146" expanded="true" signature="1827:2121" ph="..." />
-            <marker date="1535797277146" expanded="false" signature="1982:2121" ph="..." />
-            <marker date="1535797277146" expanded="true" signature="3995:4000" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/log.txt">
-      <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/models.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="510">
-          <caret line="43" column="89" selection-start-line="43" selection-start-column="89" selection-end-line="43" selection-end-column="89" />
-          <folding>
-            <marker date="1535801735603" expanded="true" signature="80:118" ph="..." />
-            <marker date="1535801735603" expanded="true" signature="797:1029" ph="..." />
-            <marker date="1535801735603" expanded="true" signature="821:1029" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/src/log.txt" />
     <entry file="file://$PROJECT_DIR$/log/model.pt">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/log/log.txt">
+    <entry file="file://$PROJECT_DIR$/src/dataloader.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-285">
+          <caret line="20" column="70" lean-forward="true" selection-start-line="20" selection-start-column="70" selection-end-line="20" selection-end-column="70" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+            <marker date="1535959305915" expanded="true" signature="92:97" ph="..." />
+            <marker date="1535959305915" expanded="true" signature="1917:1926" ph="..." />
+            <marker date="1535959305915" expanded="true" signature="1917:2211" ph="..." />
+            <marker date="1535959305915" expanded="true" signature="2072:2211" ph="..." />
+            <marker date="1535959305915" expanded="true" signature="4085:4090" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/models.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="210">
-          <caret line="14" column="57" lean-forward="true" selection-start-line="14" selection-start-column="57" selection-end-line="14" selection-end-column="57" />
+          <caret line="14" column="30" lean-forward="true" selection-start-line="14" selection-start-column="30" selection-end-line="14" selection-end-column="30" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-476">
-          <caret line="52" column="13" selection-start-line="52" selection-start-column="13" selection-end-line="52" selection-end-column="13" />
+        <state relative-caret-position="165">
+          <caret line="20" column="39" lean-forward="true" selection-start-line="20" selection-start-column="39" selection-end-line="20" selection-end-column="39" />
           <folding>
             <element signature="e#0#29#0" expanded="true" />
           </folding>
         </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/log/log.txt">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-616" />
       </provider>
     </entry>
   </component>

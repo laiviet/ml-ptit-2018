@@ -19,7 +19,7 @@ def delete_excess(input, lens, max_len):
 
 
 def adjust_learning_rate(optimizer, t):
-    lr = 0.002 * (0.5 ** (t // 10))
+    lr = 0.002 * (0.1 ** (t // 5))
     for param_group in optimizer.param_groups:
         param_group['lr'] = lr
     return optimizer
@@ -43,14 +43,14 @@ weight_matrix = np.array(weight_matrix)
 train_data = Loader(0, dictionary)
 valid_data = Loader(1, dictionary)
 test_data = Loader(2, dictionary)
-train_data = DataLoader(train_data, batch_size=64, shuffle=True, num_workers=4)
-valid_data = DataLoader(valid_data, batch_size=64, shuffle=False, num_workers=4)
-test_data = DataLoader(test_data, batch_size=64, shuffle=False, num_workers=4)
+train_data = DataLoader(train_data, batch_size=128, shuffle=True)
+valid_data = DataLoader(valid_data, batch_size=128, shuffle=False)
+test_data = DataLoader(test_data, batch_size=128, shuffle=False)
 
 # ------------------------------------------------------------------------------ #
-model = SentenceCompression(100, 100, 50, 2, weight_matrix, len(dictionary)).cuda()
-lr = 0.001
-num_epoch = 30
+model = SentenceCompression(100, 200, 50, 2, weight_matrix, len(dictionary)).cuda()
+lr = 0.0005
+num_epoch = 20
 
 criterion = nn.CrossEntropyLoss().cuda()
 optimizer = optim.Adam(filter(lambda p: p.requires_grad, model.parameters()), lr=lr, weight_decay=0.0001)
@@ -113,10 +113,8 @@ for e in range(num_epoch):
         l += loss.item()
 
     acc = accuracy_score(y, output)
-    print('valid: loss = {}, acc = {}'.format(l, acc), file=log)
-
+    print('test: loss = {}, acc = {}'.format(l, acc), file=log)
     log.close()
 
 torch.save(model, '../log/model.pt')
-
 print('Done')

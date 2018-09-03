@@ -34,15 +34,15 @@ class Loader(data.Dataset):
         features_ = np.zeros([len(self.features), self.seq_len], dtype=np.int)
         for i, line in enumerate(self.features):
             self.length_sent[i] = min(self.seq_len, len(line.split()))
-            for j, word in enumerate(line.split()):
-                if j >= self.seq_len:
-                    break
-
-                if word in self.dictionary:
-                    features_[i][j] = dictionary[word]
+            sent = line.split()
+            for j in range(self.seq_len):
+                if j >= len(sent):
+                    features_[i][j] = dictionary['unk']
                 else:
-                    features_[i][j] = dictionary['and']
-
+                    if sent[j] in dictionary:
+                        features_[i][j] = dictionary[sent[j]]
+                    else:
+                        features_[i][j] = dictionary['unknown']
         self.features = features_
 
     def write_file(self, file_path, arr):
